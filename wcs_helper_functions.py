@@ -284,3 +284,12 @@ def generate_random_values(ar):
 def map_array_to(ar, d):
     """Maps an array of terms into an array of random values given the dictionary created by the above function"""
     return [d[i] for i in ar]
+
+def normalize_dict_values(d):
+    """Takes a dictionary of values and normalizes them to be between 0 and 1"""
+    lst = list(d.values())
+    min_val = min(lst)
+    max_val = max(lst)
+    for key in d:
+        d[key] = (d[key] - min_val)/(max_val - min_val)
+    return d
