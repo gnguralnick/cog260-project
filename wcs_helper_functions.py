@@ -273,6 +273,36 @@ def plotValues(values, figx = 80, figy = 40, title = 'WCS chart'):
     ax2.yaxis.set(ticks=np.arange(0.5, len(["A"]+labels+["J"])), ticklabels=(["A"]+labels+["J"])[::-1])
     ax1.xaxis.set(ticks=np.arange(0.5, 40), ticklabels=np.arange(1, 41))
     return fig
+
+def plotValuesContour(values, figx = 80, figy = 40, title = 'WCS chart'):
+    """Takes a numpy array or matrix and produces a contour map that shows variation in the values of the array/matrix."""
+    """values: array or matrix of numbers
+       figx: length of plot on the x axis, defaults to 10
+       figy: length of plot on the y axis, defaults to 10"""
+    #read in important information for reordering
+    plt.rc(['ytick', 'xtick'], labelsize=50)
+    cnumDictionary, cnameDictionary = readChipData('./WCS_data_core/chip.txt')
+    #reorder the given values
+    lst = [values[cnumDictionary['A0']-1], values[cnumDictionary['B0']-1], 
+       values[cnumDictionary['C0']-1], values[cnumDictionary['D0']-1], values[cnumDictionary['E0']-1],
+      values[cnumDictionary['F0']-1], values[cnumDictionary['G0']-1], values[cnumDictionary['H0']-1],
+      values[cnumDictionary['I0']-1], values[cnumDictionary['J0']-1]]
+    for letter in list(string.ascii_uppercase[1:9]):
+        for num in range(1, 41):
+            lst.append(values[cnumDictionary[letter+str(num)]-1])
+    values = np.array(lst)
+    #plot
+    ha = 'center'
+    fig = plt.figure(figsize=(figx,figy))
+    fig.suptitle(title, fontsize=80)
+    # gs = gridspec.GridSpec(2, 2, width_ratios=[1, 8], height_ratios=[1,1]) 
+    # ax1 = plt.subplot(gs[1])
+    core = values[10:].reshape((8, 40))
+    plt.contour(core, extent = [0, len(core[0]),len(core), 0], interpolation='none')
+    labels = list(reversed(["B", "C", "D", "E", "F", "G", "H", "I"]))
+    plt.yticks(ticks=np.arange(0.5, len(labels)), labels=labels)
+    plt.xticks(ticks=np.arange(0.5, 40), labels=np.arange(1, 41))
+    return fig
     
 
 def generate_random_values(ar):
