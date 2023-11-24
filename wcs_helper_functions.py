@@ -298,7 +298,7 @@ def plotValuesContour(values, figx = 80, figy = 40, title = 'WCS chart'):
     # gs = gridspec.GridSpec(2, 2, width_ratios=[1, 8], height_ratios=[1,1]) 
     # ax1 = plt.subplot(gs[1])
     core = values[10:].reshape((8, 40))
-    plt.contour(core, extent = [0, len(core[0]),len(core), 0], interpolation='none')
+    plt.contour(core, extent = [0, len(core[0]),len(core), 0], interpolation='none', levels=6)
     labels = list(reversed(["B", "C", "D", "E", "F", "G", "H", "I"]))
     plt.yticks(ticks=np.arange(0.5, len(labels)), labels=labels)
     plt.xticks(ticks=np.arange(0.5, 40), labels=np.arange(1, 41))
