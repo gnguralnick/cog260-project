@@ -12,6 +12,7 @@ import numpy as np
 from matplotlib import gridspec
 import warnings
 import string
+from PIL import Image
 warnings.filterwarnings('ignore')
 
 def readNamingData(namingDataFilePath):
@@ -274,7 +275,7 @@ def plotValues(values, figx = 80, figy = 40, title = 'WCS chart'):
     ax1.xaxis.set(ticks=np.arange(0.5, 40), ticklabels=np.arange(1, 41))
     return fig
 
-def plotValuesContour(values, figx = 80, figy = 40, title = 'WCS chart'):
+def plotValuesContour(values, figx = 80, figy = 20, title = 'WCS chart', background=None):
     """Takes a numpy array or matrix and produces a contour map that shows variation in the values of the array/matrix."""
     """values: array or matrix of numbers
        figx: length of plot on the x axis, defaults to 10
@@ -298,8 +299,10 @@ def plotValuesContour(values, figx = 80, figy = 40, title = 'WCS chart'):
     # gs = gridspec.GridSpec(2, 2, width_ratios=[1, 8], height_ratios=[1,1]) 
     # ax1 = plt.subplot(gs[1])
     core = values[10:].reshape((8, 40))
+    if background is not None:
+        plt.imshow(background, extent = [0, len(core[0]),len(core), 0], interpolation='none', alpha=0.5)
     plt.contour(core, extent = [0, len(core[0]),len(core), 0], interpolation='none', linewidths=5)
-    labels = list(reversed(["B", "C", "D", "E", "F", "G", "H", "I"]))
+    labels = ["B", "C", "D", "E", "F", "G", "H", "I"]
     plt.yticks(ticks=np.arange(0.5, len(labels)), labels=labels)
     plt.xticks(ticks=np.arange(0.5, 40), labels=np.arange(1, 41))
     return fig
