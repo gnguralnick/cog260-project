@@ -301,7 +301,7 @@ def plotValuesContour(values, figx = 80, figy = 20, title = 'WCS chart', backgro
     core = values[10:].reshape((8, 40))
     if background is not None:
         plt.imshow(background, extent = [0, len(core[0]),len(core), 0], interpolation='none', alpha=0.5)
-    plt.contour(core, extent = [0, len(core[0]),len(core), 0], interpolation='none', linewidths=5)
+    plt.contour(core, extent = [0, len(core[0]),len(core), 0], interpolation='none', linewidths=5, origin='upper')
     labels = ["B", "C", "D", "E", "F", "G", "H", "I"]
     plt.yticks(ticks=np.arange(0.5, len(labels)), labels=labels)
     plt.xticks(ticks=np.arange(0.5, 40), labels=np.arange(1, 41))
